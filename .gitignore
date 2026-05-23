@@ -1,0 +1,124 @@
+# =========================
+# Dependencies
+# =========================
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.npm/
+.pnpm-store/
+
+# =========================
+# Next.js
+# =========================
+/.next/
+/out/
+next-env.d.ts
+
+# =========================
+# Production / build output
+# =========================
+/build
+/dist
+/.turbo/
+/.swc/
+
+# =========================
+# Caches
+# =========================
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.prettiercache
+*.tsbuildinfo
+
+# =========================
+# Testing
+# =========================
+/coverage
+/.nyc_output
+/test-results
+/playwright-report
+/playwright/.cache
+
+# =========================
+# Logs
+# =========================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# =========================
+# Deploy / hosting
+# =========================
+.vercel
+.netlify
+
+# =========================
+# PWA generated
+# =========================
+/public/sw.js
+/public/sw.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map
+/public/worker-*.js
+/public/worker-*.js.map
+/public/fallback-*.js
+
+# =========================
+# IDE / editors
+# =========================
+.idea/
+.vscode/
+!.vscode/extensions.json
+.vs/
+.fleet/
+.zed/
+.nova/
+.history/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*~
+
+# =========================
+# OS junk
+# =========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# =========================
+# Local-only tooling
+# =========================
+.local/
+.local-*/
+*.local.*

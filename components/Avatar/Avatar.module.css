@@ -1,0 +1,43 @@
+.avatar_root {
+  --avatar-color: var(--brand-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: #fff;
+  background:
+    linear-gradient(140deg, color-mix(in srgb, var(--avatar-color) 95%, white 5%),
+    color-mix(in srgb, var(--avatar-color) 70%, black 20%));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.avatar_root-sm {
+  width: 28px;
+  height: 28px;
+  font-size: 11px;
+}
+.avatar_root-md {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+}
+.avatar_root-lg {
+  width: 52px;
+  height: 52px;
+  font-size: 18px;
+}
+.avatar_root-xl {
+  width: 72px;
+  height: 72px;
+  font-size: 24px;
+}
+
+.avatar_label {
+  text-transform: uppercase;
+}

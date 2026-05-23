@@ -1,0 +1,112 @@
+.nav_root {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  padding: 0 var(--space-4) calc(var(--space-3) + var(--safe-area-bottom));
+  pointer-events: none;
+}
+
+.nav_bar {
+  pointer-events: auto;
+  max-width: 520px;
+  margin: 0 auto;
+  height: var(--bottom-nav-height);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  padding: 8px;
+  border-radius: var(--radius-xl);
+  background: var(--surface-glass);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: saturate(180%) blur(28px);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+}
+
+.nav_item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: var(--radius-lg);
+  color: var(--text-tertiary);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 8px 6px;
+  min-height: 56px;
+  transition: color var(--duration-base) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav_iconWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  font-size: 20px;
+  z-index: 1;
+}
+
+.nav_pill-active {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  background: var(--brand-primary-soft);
+  z-index: -1;
+}
+
+.nav_item-active {
+  color: var(--brand-primary);
+}
+
+.nav_label {
+  line-height: 1;
+}
+
+.nav_item-prominent {
+  position: relative;
+  align-self: stretch;
+  padding-top: 0;
+}
+
+.nav_item-prominent .nav_iconWrap {
+  width: 52px;
+  height: 52px;
+  margin-top: -22px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-brand);
+  color: var(--text-on-accent);
+  font-size: 24px;
+  box-shadow:
+    0 14px 32px rgba(16, 185, 129, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.nav_item-prominent:hover .nav_iconWrap {
+  transform: translateY(-2px);
+}
+
+.nav_item-prominent .nav_label {
+  color: var(--text-secondary);
+}
+
+.nav_item-prominent.nav_item-active .nav_label {
+  color: var(--brand-primary);
+}
+
+@media (hover: hover) {
+  .nav_item:not(.nav_item-active):hover {
+    color: var(--text-secondary);
+  }
+}

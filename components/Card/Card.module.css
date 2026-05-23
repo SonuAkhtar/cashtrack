@@ -1,0 +1,33 @@
+.card_root {
+  position: relative;
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+}
+
+.card_root-padded {
+  padding: var(--space-5);
+}
+
+.card_root-default {
+  background: var(--surface-1);
+}
+
+.card_root-glass {
+  background: var(--surface-glass);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border: 1px solid var(--border-default);
+}
+
+.card_root-raised {
+  background: var(--gradient-card), var(--surface-2);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-default);
+}
+
+.card_root-inset {
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+}

@@ -1,0 +1,33 @@
+.progress_track {
+  position: relative;
+  width: 100%;
+  background: var(--surface-3);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress_track-sm {
+  height: 4px;
+}
+
+.progress_track-md {
+  height: 8px;
+}
+
+.progress_fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.progress_fill-primary {
+  background: var(--gradient-brand);
+}
+.progress_fill-warning {
+  background: var(--gradient-amber);
+}
+.progress_fill-danger {
+  background: var(--gradient-danger);
+}
+.progress_fill-info {
+  background: var(--gradient-blue);
+}

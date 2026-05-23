@@ -1,0 +1,128 @@
+.borrower_root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  transition: border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
+  overflow: hidden;
+}
+
+.borrower_root:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  background: var(--surface-2);
+}
+
+.borrower_root:active {
+  transform: scale(0.99);
+}
+
+.borrower_top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.borrower_identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.borrower_meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.borrower_name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.borrower_sub {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.borrower_grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.borrower_stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.borrower_stat-label {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+}
+
+.borrower_stat-value {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-md);
+  color: var(--text-primary);
+}
+
+.borrower_stat-pending {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-md);
+  color: var(--brand-warning);
+}
+
+.borrower_progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.borrower_pct {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+  min-width: 36px;
+  text-align: right;
+}
+
+.borrower_chevron {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  color: var(--text-tertiary);
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+.borrower_root:hover .borrower_chevron {
+  opacity: 1;
+  transform: translateX(2px);
+}

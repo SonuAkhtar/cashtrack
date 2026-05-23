@@ -1,0 +1,30 @@
+.section_root {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.section_text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.section_title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.section_subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.section_action {
+  flex-shrink: 0;
+}

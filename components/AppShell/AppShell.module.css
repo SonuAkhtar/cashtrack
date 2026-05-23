@@ -1,0 +1,49 @@
+.shell_root {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+.shell_ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(40% 30% at 80% 0%, var(--brand-primary-soft), transparent 70%),
+    radial-gradient(36% 24% at 0% 30%, var(--brand-secondary-soft), transparent 70%);
+  opacity: 0.6;
+}
+
+.shell_main {
+  flex: 1;
+  width: 100%;
+  margin: 0 auto;
+  max-width: var(--shell-max-width);
+  padding: calc(var(--safe-area-top) + var(--space-3)) var(--space-5)
+    calc(var(--bottom-nav-height) + var(--safe-area-bottom) + var(--space-7));
+}
+
+.shell_page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .shell_main {
+    max-width: var(--shell-max-width-tablet);
+    padding-left: var(--space-7);
+    padding-right: var(--space-7);
+  }
+}
+
+@media (min-width: 1024px) {
+  .shell_main {
+    max-width: var(--shell-max-width-desktop);
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
