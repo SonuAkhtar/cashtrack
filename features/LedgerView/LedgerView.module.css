@@ -1,0 +1,64 @@
+.ledger_root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.ledger_header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ledger_title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.ledger_subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.ledger_groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.ledger_group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ledger_groupTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 0 var(--space-1);
+}
+
+.ledger_list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+}
+
+.ledger_list > li + li {
+  border-top: 1px solid var(--border-subtle);
+}

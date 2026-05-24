@@ -1,22 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Spectral } from "next/font/google";
+import { Inter } from "next/font/google";
+import "@fontsource/sora/400.css";
+import "@fontsource/sora/500.css";
+import "@fontsource/sora/600.css";
+import "@fontsource/sora/700.css";
 import "@/styles/globals.css";
 import { AppShell } from "@/components/AppShell/AppShell";
 
-const spectral = Spectral({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  style: ["normal", "italic"],
-  variable: "--font-spectral",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
   display: "swap",
   preload: true,
-  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
   title: "CashTrack",
-  description:
-    "Track money you lend: lent, recovered, and pending amounts.",
+  description: "Track money you lend: given, received, and pending amounts.",
   applicationName: "CashTrack",
   manifest: "/manifest.json",
   appleWebApp: {
@@ -32,8 +33,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f7fb" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0e15" },
+    { media: "(prefers-color-scheme: light)", color: "#faf8ff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a1612" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -49,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
       </head>
-      <body className={spectral.variable}>
+      <body className={inter.variable}>
         <AppShell>{children}</AppShell>
       </body>
     </html>

@@ -1,155 +1,115 @@
 "use client";
 
-import { motion } from "framer-motion";
 import classnames from "classnames";
 import {
-  HiOutlineArrowDownTray,
-  HiOutlineArrowUpTray,
-  HiOutlineCloudArrowUp,
+  HiOutlineArrowRightOnRectangle,
+  HiOutlineBell,
+  HiOutlineBuildingLibrary,
+  HiOutlineChevronRight,
+  HiOutlineLockClosed,
   HiOutlineMoon,
-  HiOutlineSun,
+  HiOutlinePencil,
+  HiOutlineQuestionMarkCircle,
+  HiOutlineShare,
+  HiOutlineUser,
 } from "react-icons/hi2";
 import { Avatar } from "@/components/Avatar/Avatar";
-import { Card } from "@/components/Card/Card";
-import { SectionHeader } from "@/components/SectionHeader/SectionHeader";
-import { Toggle } from "@/components/Toggle/Toggle";
-import { Button } from "@/components/Button/Button";
 import { usePreferencesStore } from "@/store/usePreferencesStore";
 import styles from "./SettingsView.module.css";
 
-export const SettingsView = () => {
-  const { theme, notifications, profile, setTheme, toggleNotification } =
-    usePreferencesStore();
+interface MenuItem {
+  label: string;
+  icon: React.ComponentType<{ "aria-hidden"?: boolean }>;
+  badge?: boolean;
+}
 
+const menuItems: MenuItem[] = [
+  { label: "Personal Info", icon: HiOutlineUser },
+  { label: "Security & PIN", icon: HiOutlineLockClosed },
+  { label: "Bank Accounts", icon: HiOutlineBuildingLibrary },
+  { label: "Export Ledger (CSV)", icon: HiOutlineShare },
+  { label: "Notifications", icon: HiOutlineBell, badge: true },
+  { label: "Help & Support", icon: HiOutlineQuestionMarkCircle },
+];
+
+export const SettingsView = () => {
+  const { theme, profile, setTheme } = usePreferencesStore();
   const isDark = theme === "dark";
   const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
   return (
-    <motion.div
-      className={styles.settings_root}
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.32 }}
-    >
-      <header className={styles.settings_header}>
-        <h1 className={styles.settings_title}>Settings</h1>
-        <p className={styles.settings_subtitle}>Manage your preferences</p>
-      </header>
-
-      <Card variant="raised" className={styles.settings_profile}>
-        <div className={styles.settings_profileTop}>
-          <Avatar name={profile.name} color="#34d399" size="xl" />
-          <div className={styles.settings_profileMeta}>
-            <span className={styles.settings_profileName}>{profile.name}</span>
-            <span className={styles.settings_profileEmail}>{profile.email}</span>
-          </div>
-        </div>
-        <Button variant="secondary" size="sm">
-          Edit profile
-        </Button>
-      </Card>
-
-      <Card variant="raised" className={styles.settings_section}>
-        <SectionHeader title="Notifications" subtitle="Stay on top of repayments" />
-        <div className={styles.settings_toggleStack}>
-          <Toggle
-            label="Due date reminders"
-            description="Get notified before a payment is due"
-            checked={notifications.dueReminders}
-            onChange={() => toggleNotification("dueReminders")}
-          />
-          <Toggle
-            label="Weekly digest"
-            description="Summary of activity every Monday"
-            checked={notifications.weeklyDigest}
-            onChange={() => toggleNotification("weeklyDigest")}
-          />
-          <Toggle
-            label="Payment received"
-            description="Confirm when a repayment is logged"
-            checked={notifications.paymentReceived}
-            onChange={() => toggleNotification("paymentReceived")}
-          />
-        </div>
-      </Card>
-
-      <Card variant="raised" className={styles.settings_section}>
-        <SectionHeader
-          title="Data"
-          subtitle="Export, import, and backup options"
-        />
-        <div className={styles.settings_dataGrid}>
-          <Button
-            variant="secondary"
-            iconLeft={<HiOutlineArrowDownTray aria-hidden />}
-            block
-          >
-            Export data
-          </Button>
-          <Button
-            variant="secondary"
-            iconLeft={<HiOutlineArrowUpTray aria-hidden />}
-            block
-          >
-            Import data
-          </Button>
-          <Button
-            variant="ghost"
-            iconLeft={<HiOutlineCloudArrowUp aria-hidden />}
-            block
-          >
-            Cloud backup
-          </Button>
-        </div>
-        <p className={styles.settings_dataHint}>
-          Backend sync will be available in a future update.
-        </p>
-      </Card>
-
-      <Card variant="raised" className={styles.settings_section}>
-        <SectionHeader title="Appearance" subtitle="Switch between light and dark" />
-        <div className={styles.settings_themeRow}>
-          <div className={styles.settings_themeText}>
-            <span className={styles.settings_themeLabel}>
-              {isDark ? "Dark mode" : "Light mode"}
-            </span>
-            <span className={styles.settings_themeHint}>
-              {isDark ? "Easier on the eyes at night" : "Daytime clarity"}
-            </span>
-          </div>
+    <div className={styles.settings_root}>
+      <section className={styles.settings_profile}>
+        <div className={styles.settings_avatarRing}>
+          <Avatar name={profile.name} color="var(--emerald-900)" size="xl" />
           <button
             type="button"
-            role="switch"
-            aria-checked={isDark}
-            aria-label="Toggle dark mode"
-            onClick={toggleTheme}
-            className={classnames(styles.settings_themeSwitch, {
-              [styles["settings_themeSwitch-on"]]: isDark,
-            })}
+            aria-label="Edit profile photo"
+            className={styles.settings_avatarEdit}
           >
-            <HiOutlineSun
-              aria-hidden
-              className={`${styles.settings_themeSwitchIcon} ${styles["settings_themeSwitchIcon-sun"]}`}
-            />
-            <HiOutlineMoon
-              aria-hidden
-              className={`${styles.settings_themeSwitchIcon} ${styles["settings_themeSwitchIcon-moon"]}`}
-            />
-            <motion.span
-              layout
-              transition={{ type: "spring", stiffness: 500, damping: 32 }}
-              className={styles.settings_themeSwitchKnob}
-              aria-hidden
-            >
-              {isDark ? <HiOutlineMoon /> : <HiOutlineSun />}
-            </motion.span>
+            <HiOutlinePencil aria-hidden />
           </button>
         </div>
-      </Card>
+        <h1 className={styles.settings_name}>{profile.name}</h1>
+        <span className={styles.settings_premiumBadge}>
+          <span className={styles.settings_premiumDot} aria-hidden />
+          Verified Member
+        </span>
+      </section>
 
-      <footer className={styles.settings_footer}>
-        <span className={styles.settings_version}>CashTrack v0.1.0</span>
-      </footer>
-    </motion.div>
+      <section className={styles.settings_themeCard}>
+        <div className={styles.settings_themeIcon} aria-hidden>
+          <HiOutlineMoon />
+        </div>
+        <div className={styles.settings_themeText}>
+          <span className={styles.settings_themeLabel}>Dark Mode</span>
+          <span className={styles.settings_themeHint}>Switch theme</span>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={isDark}
+          aria-label="Toggle dark mode"
+          onClick={toggleTheme}
+          className={classnames(styles.settings_switch, {
+            [styles["settings_switch-on"]]: isDark,
+          })}
+        >
+          <span className={styles.settings_switchKnob} aria-hidden />
+        </button>
+      </section>
+
+      <nav className={styles.settings_menu} aria-label="Settings">
+        <ul className={styles.settings_menuList}>
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.label}>
+                <button type="button" className={styles.settings_menuRow}>
+                  <span className={styles.settings_menuIcon} aria-hidden>
+                    <Icon />
+                  </span>
+                  <span className={styles.settings_menuLabel}>{item.label}</span>
+                  {item.badge ? (
+                    <span className={styles.settings_menuBadge} aria-hidden />
+                  ) : null}
+                  <HiOutlineChevronRight
+                    aria-hidden
+                    className={styles.settings_menuChevron}
+                  />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      <button type="button" className={styles.settings_logout}>
+        <HiOutlineArrowRightOnRectangle aria-hidden />
+        Logout Account
+      </button>
+
+      <p className={styles.settings_version}>v2.4.1</p>
+    </div>
   );
 };

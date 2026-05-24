@@ -2,43 +2,46 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 import classnames from "classnames";
 import {
   HiOutlineHome,
-  HiOutlineUsers,
+  HiOutlineDocumentText,
   HiOutlineChartBar,
-  HiOutlinePlus,
-  HiOutlineCog6Tooth,
+  HiOutlineUsers,
+  HiOutlineUser,
 } from "react-icons/hi2";
 import styles from "./BottomNavigation.module.css";
 
 interface NavItem {
   href: string;
   label: string;
+  match?: (pathname: string) => boolean;
   icon: React.ComponentType<{ "aria-hidden"?: boolean }>;
-  prominent?: boolean;
 }
 
 const navItems: NavItem[] = [
-  { href: "/", label: "Home", icon: HiOutlineHome },
+  { href: "/", label: "Home", icon: HiOutlineHome, match: (p) => p === "/" },
+  {
+    href: "/transactions",
+    label: "Ledger",
+    icon: HiOutlineDocumentText,
+    match: (p) => p.startsWith("/transactions"),
+  },
+  { href: "/analytics", label: "Stats", icon: HiOutlineChartBar },
   { href: "/people", label: "People", icon: HiOutlineUsers },
-  { href: "/add", label: "Add", icon: HiOutlinePlus, prominent: true },
-  { href: "/analytics", label: "Analytics", icon: HiOutlineChartBar },
-  { href: "/settings", label: "Settings", icon: HiOutlineCog6Tooth },
+  { href: "/settings", label: "Me", icon: HiOutlineUser },
 ];
 
 export const BottomNavigation = () => {
   const pathname = usePathname();
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
-
   return (
     <nav className={styles.nav_root} aria-label="Primary">
       <div className={styles.nav_bar}>
         {navItems.map((item) => {
-          const active = isActive(item.href);
+          const active = item.match
+            ? item.match(pathname)
+            : pathname.startsWith(item.href);
           const Icon = item.icon;
           return (
             <Link
@@ -47,17 +50,9 @@ export const BottomNavigation = () => {
               aria-current={active ? "page" : undefined}
               className={classnames(styles.nav_item, {
                 [styles["nav_item-active"]]: active,
-                [styles["nav_item-prominent"]]: item.prominent,
               })}
             >
               <span className={styles.nav_iconWrap}>
-                {active && !item.prominent && (
-                  <motion.span
-                    layoutId="nav-pill-active"
-                    className={styles["nav_pill-active"]}
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
                 <Icon aria-hidden />
               </span>
               <span className={styles.nav_label}>{item.label}</span>

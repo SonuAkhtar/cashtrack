@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@fontsource/sora": "^5.2.8",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.0",

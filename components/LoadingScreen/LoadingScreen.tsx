@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { HiOutlineBanknotes } from "react-icons/hi2";
+import { HiOutlineDocumentText, HiOutlineLockClosed } from "react-icons/hi2";
 import classnames from "classnames";
 import styles from "./LoadingScreen.module.css";
 
@@ -11,7 +10,7 @@ interface LoadingScreenProps {
 }
 
 export const LoadingScreen = ({
-  label = "Loading",
+  label = "Secure Community Ledger",
   compact = false,
 }: LoadingScreenProps) => (
   <div
@@ -22,33 +21,24 @@ export const LoadingScreen = ({
     aria-live="polite"
     aria-busy="true"
   >
-    <div className={styles.loading_stage}>
-      <motion.div
-        className={styles.loading_ring}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 1.6, ease: "linear", repeat: Infinity }}
-        aria-hidden
-      />
-      <motion.div
-        className={styles.loading_chip}
-        animate={{ scale: [1, 1.06, 1] }}
-        transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1], repeat: Infinity }}
-        aria-hidden
-      >
-        <HiOutlineBanknotes />
-      </motion.div>
+    <div className={styles.loading_iconChip} aria-hidden>
+      <HiOutlineDocumentText />
     </div>
 
     <div className={styles.loading_text}>
       <span className={styles.loading_brand}>CashTrack</span>
-      <motion.span
-        className={styles.loading_label}
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 1.6, ease: "easeInOut", repeat: Infinity }}
-      >
-        {label}
-      </motion.span>
+      <span className={styles.loading_eyebrow}>Community Finance</span>
     </div>
+
+    {!compact ? (
+      <div className={styles.loading_footer}>
+        <span className={styles.loading_footerRule} aria-hidden />
+        <span className={styles.loading_footerText}>
+          <HiOutlineLockClosed aria-hidden />
+          {label}
+        </span>
+      </div>
+    ) : null}
 
     <span className={styles.loading_srOnly}>{label}</span>
   </div>

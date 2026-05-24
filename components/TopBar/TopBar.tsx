@@ -1,68 +1,65 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { HiOutlineArrowLeft, HiOutlineBell } from "react-icons/hi2";
-import classnames from "classnames";
+import Link from "next/link";
+import { HiOutlineArrowLeft, HiOutlineMagnifyingGlass } from "react-icons/hi2";
+import { Avatar } from "@/components/Avatar/Avatar";
+import { usePreferencesStore } from "@/store/usePreferencesStore";
 import styles from "./TopBar.module.css";
 
 const titles: Record<string, string> = {
-  "/": "Overview",
+  "/transactions": "Ledger",
   "/people": "People",
-  "/analytics": "Analytics",
-  "/add": "New Entry",
-  "/settings": "Settings",
+  "/analytics": "Financial Insights",
+  "/add": "New Transaction",
+  "/settings": "CashTrack",
 };
 
 export const TopBar = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const profile = usePreferencesStore((s) => s.profile);
 
-  const isDeep = !titles[pathname];
+  const isHome = pathname === "/";
+  const isTopLevel = Object.prototype.hasOwnProperty.call(titles, pathname) || isHome;
   const title =
-    titles[pathname] ??
-    (pathname.startsWith("/people/")
-      ? "Borrower"
-      : pathname.startsWith("/transactions/")
-        ? "Transaction"
-        : "CashTrack");
+    pathname === "/"
+      ? "CashTrack"
+      : (titles[pathname] ??
+        (pathname.startsWith("/people/")
+          ? "Borrower"
+          : pathname.startsWith("/transactions/")
+            ? "Transaction Details"
+            : "CashTrack"));
 
   return (
     <header className={styles.topbar_root}>
       <div className={styles.topbar_inner}>
         <div className={styles.topbar_left}>
-          {isDeep ? (
-            <motion.button
+          {isTopLevel ? (
+            <Link href="/settings" aria-label="Profile" className={styles.topbar_avatarLink}>
+              <Avatar name={profile.name} color="var(--emerald-900)" size="sm" />
+            </Link>
+          ) : (
+            <button
               type="button"
               aria-label="Go back"
               className={styles.topbar_back}
               onClick={() => router.back()}
-              whileTap={{ scale: 0.94 }}
-              whileHover={{ scale: 1.03 }}
             >
               <HiOutlineArrowLeft aria-hidden />
-            </motion.button>
-          ) : (
-            <div className={styles.topbar_brand}>
-              <span className={classnames(styles.topbar_logo)} aria-hidden />
-              <span className={styles.topbar_brandName}>CashTrack</span>
-            </div>
+            </button>
           )}
         </div>
-        <h1 className={styles["topbar_title-deep"]} data-show={isDeep}>
-          {title}
-        </h1>
+        <h1 className={styles.topbar_title}>{title}</h1>
         <div className={styles.topbar_right}>
-          <motion.button
+          <button
             type="button"
-            aria-label="Notifications"
+            aria-label="Search"
             className={styles.topbar_iconButton}
-            whileTap={{ scale: 0.94 }}
-            whileHover={{ scale: 1.03 }}
           >
-            <HiOutlineBell aria-hidden />
-            <span className={styles["topbar_dot-alert"]} aria-hidden />
-          </motion.button>
+            <HiOutlineMagnifyingGlass aria-hidden />
+          </button>
         </div>
       </div>
     </header>

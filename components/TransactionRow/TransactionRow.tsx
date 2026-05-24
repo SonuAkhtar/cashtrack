@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import classnames from "classnames";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 import { Avatar } from "@/components/Avatar/Avatar";
 import { Badge, statusBadgeTone } from "@/components/Badge/Badge";
@@ -16,6 +17,7 @@ interface TransactionRowProps {
   borrower?: Borrower;
   currency: Currency;
   index?: number;
+  variant?: "default" | "flat";
 }
 
 export const TransactionRow = ({
@@ -23,6 +25,7 @@ export const TransactionRow = ({
   borrower,
   currency,
   index = 0,
+  variant = "default",
 }: TransactionRowProps) => {
   const pending = Math.max(0, transaction.amount - transaction.recovered);
 
@@ -34,7 +37,9 @@ export const TransactionRow = ({
     >
       <Link
         href={`/transactions/${transaction.id}`}
-        className={styles.transaction_root}
+        className={classnames(styles.transaction_root, {
+          [styles["transaction_root-flat"]]: variant === "flat",
+        })}
       >
         <Avatar
           name={borrower?.name ?? "?"}

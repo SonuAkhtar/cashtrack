@@ -1,294 +1,230 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
 import {
-  HiOutlineArrowTrendingUp,
-  HiOutlineBanknotes,
-  HiOutlineBell,
-  HiOutlineCheckCircle,
+  HiOutlineArrowDown,
+  HiOutlineArrowUp,
+  HiOutlineArrowUpTray,
+  HiOutlineArrowDownTray,
   HiOutlineClock,
-  HiOutlineExclamationTriangle,
+  HiOutlineExclamationCircle,
   HiOutlinePlus,
-  HiOutlineUserGroup,
 } from "react-icons/hi2";
-import { Card } from "@/components/Card/Card";
-import { Button } from "@/components/Button/Button";
-import { SectionHeader } from "@/components/SectionHeader/SectionHeader";
-import { StatCard } from "@/components/StatCard/StatCard";
-import { TransactionRow } from "@/components/TransactionRow/TransactionRow";
-import { ChartLegend } from "@/components/ChartLegend/ChartLegend";
-import { RecoveryGauge } from "@/components/RecoveryGauge/RecoveryGauge";
-import { chartPalette } from "@/styles/chartTheme";
+import { Avatar } from "@/components/Avatar/Avatar";
+import { Badge, statusBadgeTone } from "@/components/Badge/Badge";
+import { FAB } from "@/components/FAB/FAB";
 import { useLedgerStore } from "@/store/useLedgerStore";
 import { usePreferencesStore } from "@/store/usePreferencesStore";
 import {
-  getBorrowerStats,
   getDashboardSummary,
   getMonthlyPoints,
   sortByRecent,
 } from "@/features/selectors";
 import { formatCurrency } from "@/utils/format";
-import { daysUntil } from "@/utils/date";
+import { statusLabels } from "@/lib/constants";
+import type { Transaction } from "@/types";
 import styles from "./DashboardView.module.css";
 
-const MonthlyTrendChart = dynamic(
-  () =>
-    import("@/components/MonthlyTrendChart/MonthlyTrendChart").then(
-      (m) => m.MonthlyTrendChart,
-    ),
-  { ssr: false, loading: () => <div className={styles.dashboard_chartFallback} /> },
-);
-
-const greetingFor = (date: Date): string => {
-  const hour = date.getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
+const signedDelta = (tx: Transaction): { sign: "+" | "-"; amount: number } => {
+  if (tx.status === "settled" || tx.recovered >= tx.amount) {
+    return { sign: "+", amount: tx.recovered };
+  }
+  return { sign: "-", amount: tx.amount - tx.recovered };
 };
 
 export const DashboardView = () => {
   const transactions = useLedgerStore((s) => s.transactions);
   const borrowers = useLedgerStore((s) => s.borrowers);
-  const repayments = useLedgerStore((s) => s.repayments);
   const currency = usePreferencesStore((s) => s.currency);
-  const profile = usePreferencesStore((s) => s.profile);
 
   const summary = useMemo(() => getDashboardSummary(transactions), [transactions]);
-  const monthly = useMemo(() => getMonthlyPoints(transactions, 6), [transactions]);
-  const recent = useMemo(() => sortByRecent(transactions).slice(0, 5), [transactions]);
-  const stats = useMemo(
-    () => getBorrowerStats(borrowers, transactions, repayments),
-    [borrowers, transactions, repayments],
-  );
-
-  const dueSoon = useMemo(
-    () =>
-      transactions.filter((t) => {
-        if (t.status === "settled" || !t.dueDate) return false;
-        const days = daysUntil(t.dueDate);
-        return days >= 0 && days <= 7;
-      }),
-    [transactions],
-  );
-
-  const [greeting, setGreeting] = useState("Hello");
-  useEffect(() => {
-    setGreeting(greetingFor(new Date()));
-  }, []);
-  const firstName = profile.name.split(" ")[0];
-
+  const monthly = useMemo(() => getMonthlyPoints(transactions, 5), [transactions]);
+  const recent = useMemo(() => sortByRecent(transactions).slice(0, 3), [transactions]);
   const borrowerMap = useMemo(
     () => new Map(borrowers.map((b) => [b.id, b])),
     [borrowers],
   );
-  const pendingStats = useMemo(
-    () => stats.filter((s) => s.pending > 0),
-    [stats],
+
+  const overdueTotal = useMemo(() => {
+    return transactions
+      .filter((t) => t.status === "overdue")
+      .reduce((s, t) => s + Math.max(0, t.amount - t.recovered), 0);
+  }, [transactions]);
+
+  const flowMax = Math.max(
+    1,
+    ...monthly.map((m) => Math.max(m.lent, m.recovered)),
   );
-  const topBorrowers = useMemo(
-    () => [...pendingStats].sort((a, b) => b.pending - a.pending).slice(0, 3),
-    [pendingStats],
-  );
+
+  const flowDelta = useMemo(() => {
+    if (monthly.length < 2) return 0;
+    const prev = monthly[monthly.length - 2];
+    const curr = monthly[monthly.length - 1];
+    const prevSum = prev.lent + prev.recovered;
+    const currSum = curr.lent + curr.recovered;
+    if (prevSum === 0) return 0;
+    return ((currSum - prevSum) / prevSum) * 100;
+  }, [monthly]);
 
   return (
     <div className={styles.dashboard_root}>
-      <motion.section
-        className={styles.dashboard_hero}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className={styles.dashboard_heroLeft}>
-          <div className={styles.dashboard_heroTop}>
-            <span className={styles.dashboard_greeting}>
-              {greeting}, <strong>{firstName}</strong>
+      <section className={styles.dashboard_netBalance} aria-label="Net balance">
+        <span className={styles.dashboard_netLabel}>Net Balance</span>
+        <div className={styles.dashboard_netRow}>
+          <span className={styles.dashboard_netSymbol}>$</span>
+          <span className={styles.dashboard_netAmount}>
+            {formatCurrency(summary.totalPending, currency).replace(/^\D+/, "")}
+          </span>
+        </div>
+        <div className={styles.dashboard_netSplit}>
+          <div className={styles.dashboard_netCol}>
+            <span className={styles.dashboard_netColLabel}>
+              <HiOutlineArrowUp aria-hidden />
+              Total Given
             </span>
-            {dueSoon.length > 0 ? (
-              <span className={styles.dashboard_dueChip}>
-                <HiOutlineBell aria-hidden />
-                {dueSoon.length} due
-              </span>
-            ) : null}
+            <span className={styles["dashboard_netColValue-given"]}>
+              {formatCurrency(summary.totalLent, currency)}
+            </span>
           </div>
-          <div className={styles.dashboard_heroBody}>
-            <span className={styles.dashboard_heroLabel}>Pending</span>
-            <span className={styles.dashboard_heroAmount}>
-              {formatCurrency(summary.totalPending, currency)}
+          <div className={styles.dashboard_netCol}>
+            <span className={styles.dashboard_netColLabel}>
+              <HiOutlineArrowDown aria-hidden />
+              Total Received
             </span>
-            {summary.overdueCount > 0 ? (
-              <span className={styles.dashboard_heroOverdue}>
-                <HiOutlineExclamationTriangle aria-hidden />
-                {summary.overdueCount} overdue
-              </span>
-            ) : null}
+            <span className={styles["dashboard_netColValue-received"]}>
+              {formatCurrency(summary.totalRecovered, currency)}
+            </span>
           </div>
         </div>
-        <div className={styles.dashboard_heroGauge}>
-          <RecoveryGauge value={summary.recoveryRate} />
-        </div>
-      </motion.section>
-
-      <section className={styles["dashboard_section-actions"]}>
-        <Link href="/add" className={styles.dashboard_actionLink}>
-          <Button variant="primary" iconLeft={<HiOutlinePlus aria-hidden />} block>
-            New entry
-          </Button>
-        </Link>
-        <Link href="/people" className={styles.dashboard_actionLink}>
-          <Button variant="secondary" iconLeft={<HiOutlineUserGroup aria-hidden />} block>
-            View people
-          </Button>
-        </Link>
       </section>
 
-      <section className={styles.dashboard_group} aria-label="Received">
-        <div className={styles.dashboard_groupHeader}>
+      <section className={styles.dashboard_statsGrid} aria-label="Categories">
+        <article className={`${styles.dashboard_stat} ${styles["dashboard_stat-given"]}`}>
+          <span className={styles.dashboard_statIcon} aria-hidden>
+            <HiOutlineArrowUpTray />
+          </span>
+          <span className={styles.dashboard_statLabel}>Money Given</span>
+          <span className={styles.dashboard_statValue}>
+            {formatCurrency(summary.totalLent, currency)}
+          </span>
+        </article>
+        <article className={`${styles.dashboard_stat} ${styles["dashboard_stat-received"]}`}>
+          <span className={styles.dashboard_statIcon} aria-hidden>
+            <HiOutlineArrowDownTray />
+          </span>
+          <span className={styles.dashboard_statLabel}>Money Received</span>
+          <span className={styles.dashboard_statValue}>
+            {formatCurrency(summary.totalRecovered, currency)}
+          </span>
+        </article>
+        <article className={`${styles.dashboard_stat} ${styles["dashboard_stat-pending"]}`}>
+          <span className={styles.dashboard_statIcon} aria-hidden>
+            <HiOutlineClock />
+          </span>
+          <span className={styles.dashboard_statLabel}>Pending</span>
+          <span className={styles.dashboard_statValue}>
+            {formatCurrency(summary.totalPending, currency)}
+          </span>
+        </article>
+        <article className={`${styles.dashboard_stat} ${styles["dashboard_stat-overdue"]}`}>
+          <span className={styles.dashboard_statIcon} aria-hidden>
+            <HiOutlineExclamationCircle />
+          </span>
+          <span className={styles.dashboard_statLabel}>Overdue</span>
+          <span className={styles.dashboard_statValue}>
+            {formatCurrency(overdueTotal, currency)}
+          </span>
+        </article>
+      </section>
+
+      <section className={styles.dashboard_flow} aria-label="Weekly flow">
+        <header className={styles.dashboard_flowHeader}>
+          <span className={styles.dashboard_flowTitle}>Weekly Flow</span>
           <span
-            className={`${styles.dashboard_groupDot} ${styles["dashboard_groupDot-positive"]}`}
-            aria-hidden
-          />
-          <h2 className={styles.dashboard_groupTitle}>Received</h2>
-          <span className={styles.dashboard_groupHint}>Money returning to you</span>
-        </div>
-        <div className={styles.dashboard_statsGrid}>
-          <StatCard
-            label="Recovered"
-            value={formatCurrency(summary.totalRecovered, currency)}
-            icon={<HiOutlineCheckCircle />}
-            tone="primary"
-            trend={{ value: 4.8 }}
-            delay={0.05}
-          />
-          <StatCard
-            label="Monthly Recovery"
-            value={formatCurrency(summary.monthlyRecovery, currency)}
-            icon={<HiOutlineArrowTrendingUp />}
-            tone="violet"
-            trend={{ value: 12.3 }}
-            delay={0.1}
-          />
-          <StatCard
-            label="Active Borrowers"
-            value={String(summary.activeBorrowers)}
-            icon={<HiOutlineUserGroup />}
-            tone="neutral"
-            hint={`${borrowers.length} total`}
-            delay={0.15}
-          />
+            className={
+              flowDelta >= 0
+                ? styles["dashboard_flowDelta-up"]
+                : styles["dashboard_flowDelta-down"]
+            }
+          >
+            {flowDelta >= 0 ? "+" : ""}
+            {flowDelta.toFixed(0)}%
+          </span>
+        </header>
+        <div className={styles.dashboard_flowChart} aria-hidden>
+          {monthly.map((m, i) => {
+            const total = m.lent + m.recovered;
+            const height = Math.max(8, Math.round((total / (flowMax * 2)) * 100));
+            return (
+              <span
+                key={m.month}
+                className={styles.dashboard_flowBar}
+                style={
+                  {
+                    height: `${height}%`,
+                    opacity: 0.4 + i * 0.12,
+                  } as React.CSSProperties
+                }
+              />
+            );
+          })}
         </div>
       </section>
 
-      <section className={styles.dashboard_group} aria-label="Lent out">
-        <div className={styles.dashboard_groupHeader}>
-          <span
-            className={`${styles.dashboard_groupDot} ${styles["dashboard_groupDot-negative"]}`}
-            aria-hidden
-          />
-          <h2 className={styles.dashboard_groupTitle}>Lent out</h2>
-          <span className={styles.dashboard_groupHint}>Outstanding & at risk</span>
-        </div>
-        <div className={styles.dashboard_statsGrid}>
-          <StatCard
-            label="Total Lent"
-            value={formatCurrency(summary.totalLent, currency)}
-            icon={<HiOutlineBanknotes />}
-            tone="info"
-            delay={0.05}
-          />
-          <StatCard
-            label="Pending"
-            value={formatCurrency(summary.totalPending, currency)}
-            icon={<HiOutlineClock />}
-            tone="warning"
-            delay={0.1}
-          />
-          <StatCard
-            label="Overdue"
-            value={String(summary.overdueCount)}
-            icon={<HiOutlineExclamationTriangle />}
-            tone="danger"
-            hint="needs attention"
-            delay={0.15}
-          />
-        </div>
+      <section className={styles.dashboard_recent} aria-label="Recent activity">
+        <header className={styles.dashboard_recentHeader}>
+          <h2 className={styles.dashboard_recentTitle}>Recent Activity</h2>
+          <Link href="/transactions" className={styles.dashboard_recentLink}>
+            View All
+          </Link>
+        </header>
+        <ul className={styles.dashboard_recentList}>
+          {recent.map((tx) => {
+            const borrower = borrowerMap.get(tx.borrowerId);
+            const { sign, amount } = signedDelta(tx);
+            return (
+              <li key={tx.id}>
+                <Link
+                  href={`/transactions/${tx.id}`}
+                  className={styles.dashboard_recentRow}
+                >
+                  <Avatar
+                    name={borrower?.name ?? "?"}
+                    color={borrower?.avatarColor}
+                    size="md"
+                  />
+                  <div className={styles.dashboard_recentBody}>
+                    <span className={styles.dashboard_recentName}>
+                      {borrower?.name ?? "Unknown"}
+                    </span>
+                    <span className={styles.dashboard_recentNote}>
+                      {tx.notes ?? "Transaction"}
+                    </span>
+                  </div>
+                  <div className={styles.dashboard_recentMeta}>
+                    <span
+                      className={
+                        sign === "+"
+                          ? styles["dashboard_recentAmount-pos"]
+                          : styles["dashboard_recentAmount-neg"]
+                      }
+                    >
+                      {sign}
+                      {formatCurrency(amount, currency)}
+                    </span>
+                    <Badge tone={statusBadgeTone(tx.status)}>
+                      {statusLabels[tx.status]}
+                    </Badge>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
-      <Card variant="raised" className={styles.dashboard_trendCard}>
-        <SectionHeader
-          title="Repayment overview"
-          subtitle="Lent vs recovered, last 6 months"
-        />
-        <MonthlyTrendChart data={monthly} currency={currency} />
-        <ChartLegend
-          items={[
-            { label: "Lent", color: chartPalette.lent },
-            { label: "Recovered", color: chartPalette.recovered },
-          ]}
-        />
-      </Card>
-
-      <section className={styles.dashboard_section}>
-        <SectionHeader
-          title="Top pending"
-          subtitle={
-            pendingStats.length === 1
-              ? "1 borrower with outstanding balance"
-              : `${pendingStats.length} borrowers with outstanding balance`
-          }
-          action={
-            <Link href="/people" className={styles.dashboard_link}>
-              View all
-            </Link>
-          }
-        />
-        <div className={styles.dashboard_pendingList}>
-          {topBorrowers.map((stat) => (
-            <Link
-              key={stat.borrower.id}
-              href={`/people/${stat.borrower.id}`}
-              className={styles.dashboard_pendingRow}
-            >
-              <div className={styles.dashboard_pendingMain}>
-                <span
-                  className={styles.dashboard_pendingDot}
-                  style={{ background: stat.borrower.avatarColor }}
-                  aria-hidden
-                />
-                <div className={styles.dashboard_pendingText}>
-                  <span className={styles.dashboard_pendingName}>{stat.borrower.name}</span>
-                  <span className={styles.dashboard_pendingMeta}>
-                    {stat.activeTransactions} active
-                  </span>
-                </div>
-              </div>
-              <span className={styles.dashboard_pendingAmount}>
-                {formatCurrency(stat.pending, currency)}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.dashboard_section}>
-        <SectionHeader
-          title="Recent activity"
-          subtitle="Latest transactions across all borrowers"
-        />
-        <div className={styles.dashboard_recentList}>
-          {recent.map((tx, idx) => (
-            <TransactionRow
-              key={tx.id}
-              transaction={tx}
-              borrower={borrowerMap.get(tx.borrowerId)}
-              currency={currency}
-              index={idx}
-            />
-          ))}
-        </div>
-      </section>
+      <FAB href="/add" label="Add transaction" icon={<HiOutlinePlus />} />
     </div>
   );
 };
