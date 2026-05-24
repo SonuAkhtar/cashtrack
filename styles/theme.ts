@@ -5,7 +5,10 @@ export const themeTokens = {
     secondary: "#60a5fa",
     warning: "#fbbf24",
     danger: "#f87171",
+    dangerStrong: "#ef4444",
     violet: "#a78bfa",
+    teal: "#22d3ee",
+    tealStrong: "#0891b2",
   },
   chart: {
     lent: "#60a5fa",
@@ -35,8 +38,8 @@ export const themeTokens = {
 } as const;
 
 export const fonts = {
-  display: '"Sora", "Manrope", "Inter", system-ui, sans-serif',
-  body: '"Inter", "Manrope", system-ui, sans-serif',
+  display: 'var(--font-spectral), Georgia, "Times New Roman", serif',
+  body: 'var(--font-spectral), Georgia, "Times New Roman", serif',
   mono: '"JetBrains Mono", ui-monospace, monospace',
 } as const;
 

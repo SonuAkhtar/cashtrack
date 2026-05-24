@@ -15,22 +15,14 @@ import { SectionHeader } from "@/components/SectionHeader/SectionHeader";
 import { Toggle } from "@/components/Toggle/Toggle";
 import { Button } from "@/components/Button/Button";
 import { usePreferencesStore } from "@/store/usePreferencesStore";
-import type { AppPreferences } from "@/types";
 import styles from "./SettingsView.module.css";
-
-const THEME_OPTIONS: {
-  value: AppPreferences["theme"];
-  label: string;
-  hint: string;
-  Icon: typeof HiOutlineSun;
-}[] = [
-  { value: "light", label: "Light", hint: "Daytime clarity", Icon: HiOutlineSun },
-  { value: "dark", label: "Dark", hint: "Easier on the eyes", Icon: HiOutlineMoon },
-];
 
 export const SettingsView = () => {
   const { theme, notifications, profile, setTheme, toggleNotification } =
     usePreferencesStore();
+
+  const isDark = theme === "dark";
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
   return (
     <motion.div
@@ -41,9 +33,7 @@ export const SettingsView = () => {
     >
       <header className={styles.settings_header}>
         <h1 className={styles.settings_title}>Settings</h1>
-        <p className={styles.settings_subtitle}>
-          Manage your preferences
-        </p>
+        <p className={styles.settings_subtitle}>Manage your preferences</p>
       </header>
 
       <Card variant="raised" className={styles.settings_profile}>
@@ -57,47 +47,6 @@ export const SettingsView = () => {
         <Button variant="secondary" size="sm">
           Edit profile
         </Button>
-      </Card>
-
-      <Card variant="raised" className={styles.settings_section}>
-        <SectionHeader title="Appearance" subtitle="Choose your preferred theme" />
-        <div
-          className={styles.settings_themeSwitch}
-          role="radiogroup"
-          aria-label="Theme"
-        >
-          {THEME_OPTIONS.map(({ value, label, hint, Icon }) => {
-            const active = theme === value;
-            return (
-              <button
-                key={value}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => setTheme(value)}
-                className={classnames(styles.settings_themeOption, {
-                  [styles["settings_themeOption-active"]]: active,
-                })}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="settings-theme-pill"
-                    className={styles.settings_themePill}
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    aria-hidden
-                  />
-                )}
-                <span className={styles.settings_themeIcon} aria-hidden>
-                  <Icon />
-                </span>
-                <span className={styles.settings_themeMeta}>
-                  <span className={styles.settings_themeLabel}>{label}</span>
-                  <span className={styles.settings_themeHint}>{hint}</span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
       </Card>
 
       <Card variant="raised" className={styles.settings_section}>
@@ -155,6 +104,47 @@ export const SettingsView = () => {
         <p className={styles.settings_dataHint}>
           Backend sync will be available in a future update.
         </p>
+      </Card>
+
+      <Card variant="raised" className={styles.settings_section}>
+        <SectionHeader title="Appearance" subtitle="Switch between light and dark" />
+        <div className={styles.settings_themeRow}>
+          <div className={styles.settings_themeText}>
+            <span className={styles.settings_themeLabel}>
+              {isDark ? "Dark mode" : "Light mode"}
+            </span>
+            <span className={styles.settings_themeHint}>
+              {isDark ? "Easier on the eyes at night" : "Daytime clarity"}
+            </span>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={isDark}
+            aria-label="Toggle dark mode"
+            onClick={toggleTheme}
+            className={classnames(styles.settings_themeSwitch, {
+              [styles["settings_themeSwitch-on"]]: isDark,
+            })}
+          >
+            <HiOutlineSun
+              aria-hidden
+              className={`${styles.settings_themeSwitchIcon} ${styles["settings_themeSwitchIcon-sun"]}`}
+            />
+            <HiOutlineMoon
+              aria-hidden
+              className={`${styles.settings_themeSwitchIcon} ${styles["settings_themeSwitchIcon-moon"]}`}
+            />
+            <motion.span
+              layout
+              transition={{ type: "spring", stiffness: 500, damping: 32 }}
+              className={styles.settings_themeSwitchKnob}
+              aria-hidden
+            >
+              {isDark ? <HiOutlineMoon /> : <HiOutlineSun />}
+            </motion.span>
+          </button>
+        </div>
       </Card>
 
       <footer className={styles.settings_footer}>

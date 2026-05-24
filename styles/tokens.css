@@ -1,5 +1,4 @@
 :root {
-  /* Brand */
   --brand-primary: #34d399;
   --brand-primary-strong: #10b981;
   --brand-primary-soft: rgba(52, 211, 153, 0.14);
@@ -8,11 +7,14 @@
   --brand-warning: #fbbf24;
   --brand-warning-soft: rgba(251, 191, 36, 0.16);
   --brand-danger: #f87171;
+  --brand-danger-strong: #ef4444;
   --brand-danger-soft: rgba(248, 113, 113, 0.16);
   --brand-violet: #a78bfa;
   --brand-violet-soft: rgba(167, 139, 250, 0.16);
+  --brand-teal: #22d3ee;
+  --brand-teal-strong: #0891b2;
+  --brand-teal-soft: rgba(34, 211, 238, 0.16);
 
-  /* Radii */
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -20,7 +22,6 @@
   --radius-xl: 28px;
   --radius-pill: 999px;
 
-  /* Spacing scale (4pt) */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -32,9 +33,8 @@
   --space-9: 56px;
   --space-10: 72px;
 
-  /* Type scale */
-  --font-display: "Sora", "Manrope", "Inter", system-ui, -apple-system, sans-serif;
-  --font-body: "Inter", "Manrope", system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-spectral), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-spectral), Georgia, "Times New Roman", serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   --text-2xs: 10px;
@@ -48,14 +48,12 @@
   --text-4xl: 38px;
   --text-5xl: 48px;
 
-  /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast: 140ms;
   --duration-base: 240ms;
   --duration-slow: 420ms;
 
-  /* Layout */
   --shell-max-width: 480px;
   --shell-max-width-tablet: 720px;
   --shell-max-width-desktop: 1180px;
@@ -66,34 +64,39 @@
 }
 
 [data-theme="dark"] {
-  /* Surfaces */
   --surface-0: #0a0e15;
   --surface-1: #0f141d;
   --surface-2: #141a24;
   --surface-3: #1b2230;
   --surface-elevated: rgba(20, 26, 36, 0.78);
   --surface-overlay: rgba(10, 14, 21, 0.7);
-  --surface-glass: rgba(20, 26, 36, 0.55);
+  --surface-glass: rgba(24, 32, 46, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.06);
+  --shadow-glass:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.35) inset,
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-glass-press:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 1px 4px rgba(0, 0, 0, 0.3);
 
-  /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-default: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.14);
 
-  /* Text */
   --text-primary: #f4f6fb;
   --text-secondary: #aeb6c6;
   --text-tertiary: #6e7689;
   --text-inverse: #0a0e15;
   --text-on-accent: #06241b;
 
-  /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.55);
   --shadow-focus: 0 0 0 3px rgba(52, 211, 153, 0.24);
 
-  /* Gradients */
   --gradient-app: radial-gradient(120% 80% at 10% 0%, #122031 0%, #0a0e15 55%, #070a10 100%);
   --gradient-card: linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
   --gradient-brand: linear-gradient(135deg, #34d399 0%, #10b981 60%, #059669 100%);
@@ -101,6 +104,7 @@
   --gradient-violet: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
   --gradient-amber: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   --gradient-danger: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  --gradient-teal: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
 }
 
 [data-theme="light"] {
@@ -110,7 +114,17 @@
   --surface-3: #f1f4f9;
   --surface-elevated: rgba(255, 255, 255, 0.86);
   --surface-overlay: rgba(255, 255, 255, 0.78);
-  --surface-glass: rgba(255, 255, 255, 0.7);
+  --surface-glass: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-highlight: rgba(255, 255, 255, 0.85);
+  --shadow-glass:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 -1px 0 rgba(15, 23, 42, 0.04) inset,
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 12px 28px rgba(15, 23, 42, 0.08);
+  --shadow-glass-press:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 1px 4px rgba(15, 23, 42, 0.06);
 
   --border-subtle: rgba(10, 22, 40, 0.05);
   --border-default: rgba(10, 22, 40, 0.09);
@@ -134,4 +148,5 @@
   --gradient-violet: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
   --gradient-amber: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   --gradient-danger: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  --gradient-teal: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
 }

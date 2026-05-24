@@ -43,7 +43,7 @@ export const BorrowerCard = ({ stats, currency, index = 0 }: BorrowerCardProps) 
               <span className={styles.borrower_name}>{borrower.name}</span>
               <span className={styles.borrower_sub}>
                 {stats.activeTransactions} active
-                {stats.lastPaymentDate ? ` · paid ${formatRelative(stats.lastPaymentDate)}` : ""}
+                {stats.lastPaymentDate ? `, paid ${formatRelative(stats.lastPaymentDate)}` : ""}
               </span>
             </div>
           </div>

@@ -1,23 +1,52 @@
 .button_root {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   border-radius: var(--radius-pill);
-  font-family: var(--font-body);
-  font-weight: 600;
-  letter-spacing: -0.005em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
   border: 1px solid transparent;
-  transition: background var(--duration-base) var(--ease-out),
-    border-color var(--duration-base) var(--ease-out),
-    color var(--duration-base) var(--ease-out);
+  overflow: hidden;
+  isolation: isolate;
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
+  transition:
+    transform 0.18s var(--ease-out),
+    box-shadow 0.22s var(--ease-out),
+    background 0.22s var(--ease-out),
+    border-color 0.22s var(--ease-out),
+    color 0.22s var(--ease-out);
+}
+
+.button_root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  z-index: 0;
+}
+
+.button_root > * {
+  position: relative;
+  z-index: 1;
 }
 
 .button_root:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.button_root:active {
+  transform: scale(0.98);
 }
 
 .button_root-block {
@@ -43,32 +72,62 @@
 }
 
 .button_root-primary {
-  background: var(--gradient-brand);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 60%),
+    var(--gradient-brand);
   color: var(--text-on-accent);
-  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    0 4px 10px rgba(16, 185, 129, 0.28),
+    0 14px 28px -8px rgba(16, 185, 129, 0.32);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
-.button_root-primary:hover {
-  box-shadow: 0 14px 30px rgba(16, 185, 129, 0.38);
+@media (hover: hover) {
+  .button_root-primary:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+      0 6px 14px rgba(16, 185, 129, 0.34),
+      0 18px 36px -10px rgba(16, 185, 129, 0.4);
+  }
 }
 
 .button_root-secondary {
-  background: var(--surface-2);
-  color: var(--text-primary);
-  border-color: var(--border-default);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 60%),
+    color-mix(in srgb, var(--brand-secondary) 14%, var(--surface-1));
+  color: var(--brand-secondary);
+  border-color: color-mix(in srgb, var(--brand-secondary) 30%, var(--glass-border));
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 2px 6px color-mix(in srgb, var(--brand-secondary) 14%, transparent),
+    0 12px 28px -10px color-mix(in srgb, var(--brand-secondary) 30%, transparent);
 }
 
-.button_root-secondary:hover {
-  background: var(--surface-3);
+@media (hover: hover) {
+  .button_root-secondary:hover {
+    transform: translateY(-1px);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 60%),
+      color-mix(in srgb, var(--brand-secondary) 20%, var(--surface-1));
+  }
 }
 
 .button_root-ghost {
   background: transparent;
   color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.button_root-ghost::before {
+  display: none;
 }
 
 .button_root-ghost:hover {
-  background: var(--surface-2);
+  background: var(--surface-glass);
   color: var(--text-primary);
 }
 
@@ -76,16 +135,35 @@
   background: transparent;
   color: var(--text-primary);
   border-color: var(--border-strong);
+  box-shadow: none;
+}
+
+.button_root-outline::before {
+  display: none;
 }
 
 .button_root-outline:hover {
-  background: var(--surface-2);
+  background: var(--surface-glass);
+  border-color: var(--brand-primary);
 }
 
 .button_root-danger {
-  background: var(--gradient-danger);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 60%),
+    var(--gradient-danger);
   color: #fff;
-  box-shadow: 0 10px 24px rgba(248, 113, 113, 0.28);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 4px 10px rgba(248, 113, 113, 0.28),
+    0 14px 28px -8px rgba(248, 113, 113, 0.32);
+}
+
+@media (hover: hover) {
+  .button_root-danger:hover {
+    transform: translateY(-1px);
+  }
 }
 
 .button_icon {

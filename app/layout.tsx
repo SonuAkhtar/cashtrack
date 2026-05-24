@@ -1,24 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Manrope, Sora } from "next/font/google";
+import { Spectral } from "next/font/google";
 import "@/styles/globals.css";
 import { AppShell } from "@/components/AppShell/AppShell";
 
-const inter = Inter({
+const spectral = Spectral({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
+  variable: "--font-spectral",
   display: "swap",
-});
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  display: "swap",
-});
-
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-sora",
-  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -57,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
       </head>
-      <body className={`${inter.variable} ${manrope.variable} ${sora.variable}`}>
+      <body className={spectral.variable}>
         <AppShell>{children}</AppShell>
       </body>
     </html>

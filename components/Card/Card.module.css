@@ -1,33 +1,72 @@
 .card_root {
   position: relative;
   border-radius: var(--radius-lg);
-  background: var(--surface-1);
-  border: 1px solid var(--border-default);
+  background: var(--surface-glass);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
   overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.22s var(--ease-out),
+    box-shadow 0.22s var(--ease-out);
+}
+
+.card_root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--glass-highlight) 0%,
+    transparent 35%
+  );
+  border-radius: inherit;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+.card_root > * {
+  position: relative;
+  z-index: 2;
 }
 
 .card_root-padded {
   padding: var(--space-5);
 }
 
-.card_root-default {
-  background: var(--surface-1);
-}
-
-.card_root-glass {
-  background: var(--surface-glass);
-  backdrop-filter: saturate(180%) blur(18px);
-  -webkit-backdrop-filter: saturate(180%) blur(18px);
-  border: 1px solid var(--border-default);
-}
-
 .card_root-raised {
-  background: var(--gradient-card), var(--surface-2);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-default);
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--surface-glass) 100%, transparent),
+      var(--surface-glass)
+    );
+  box-shadow:
+    var(--shadow-glass),
+    0 24px 48px -16px rgba(0, 0, 0, 0.18);
 }
 
 .card_root-inset {
-  background: var(--surface-2);
+  background: color-mix(in srgb, var(--surface-2) 90%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.06),
+    inset 0 -1px 0 var(--glass-highlight);
   border: 1px solid var(--border-subtle);
+}
+
+@media (hover: hover) {
+  .card_root:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.card_root:active {
+  transform: scale(0.995);
+  box-shadow: var(--shadow-glass-press);
+  transition-duration: 0.1s;
 }

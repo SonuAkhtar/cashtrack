@@ -6,37 +6,52 @@ import styles from "./RecoveryGauge.module.css";
 interface RecoveryGaugeProps {
   value: number;
   label?: string;
+  size?: number;
 }
 
-export const RecoveryGauge = ({ value, label = "Recovery Rate" }: RecoveryGaugeProps) => {
+export const RecoveryGauge = ({
+  value,
+  label = "Recovered",
+  size = 104,
+}: RecoveryGaugeProps) => {
   const clamped = Math.max(0, Math.min(100, value));
-  const radius = 56;
+  const stroke = 9;
+  const radius = (size - stroke * 2) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (clamped / 100) * circumference;
+  const center = size / 2;
 
   return (
-    <div className={styles.gauge_root}>
-      <svg viewBox="0 0 140 140" width="140" height="140" className={styles.gauge_svg}>
+    <div
+      className={styles.gauge_root}
+      style={{ width: size, height: size }}
+    >
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        width={size}
+        height={size}
+        className={styles.gauge_svg}
+      >
         <defs>
           <linearGradient id="gauge-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#34d399" />
-            <stop offset="100%" stopColor="#10b981" />
+            <stop offset="0%" stopColor="var(--brand-primary)" />
+            <stop offset="100%" stopColor="var(--brand-primary-strong)" />
           </linearGradient>
         </defs>
         <circle
-          cx="70"
-          cy="70"
+          cx={center}
+          cy={center}
           r={radius}
-          stroke="var(--surface-3)"
-          strokeWidth="10"
+          stroke="var(--glass-border)"
+          strokeWidth={stroke}
           fill="none"
         />
         <motion.circle
-          cx="70"
-          cy="70"
+          cx={center}
+          cy={center}
           r={radius}
           stroke="url(#gauge-grad)"
-          strokeWidth="10"
+          strokeWidth={stroke}
           strokeLinecap="round"
           fill="none"
           strokeDasharray={circumference}

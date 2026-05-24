@@ -1,6 +1,3 @@
-# =========================
-# Dependencies
-# =========================
 /node_modules
 /.pnp
 .pnp.*
@@ -12,24 +9,15 @@
 .npm/
 .pnpm-store/
 
-# =========================
-# Next.js
-# =========================
 /.next/
 /out/
 next-env.d.ts
 
-# =========================
-# Production / build output
-# =========================
 /build
 /dist
 /.turbo/
 /.swc/
 
-# =========================
-# Caches
-# =========================
 .cache/
 .parcel-cache/
 .eslintcache
@@ -37,18 +25,12 @@ next-env.d.ts
 .prettiercache
 *.tsbuildinfo
 
-# =========================
-# Testing
-# =========================
 /coverage
 /.nyc_output
 /test-results
 /playwright-report
 /playwright/.cache
 
-# =========================
-# Logs
-# =========================
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -56,24 +38,15 @@ yarn-error.log*
 .pnpm-debug.log*
 lerna-debug.log*
 
-# =========================
-# Environment / secrets
-# =========================
 .env
 .env.local
 .env.*.local
 *.pem
 *.key
 
-# =========================
-# Deploy / hosting
-# =========================
 .vercel
 .netlify
 
-# =========================
-# PWA generated
-# =========================
 /public/sw.js
 /public/sw.js.map
 /public/workbox-*.js
@@ -82,9 +55,6 @@ lerna-debug.log*
 /public/worker-*.js.map
 /public/fallback-*.js
 
-# =========================
-# IDE / editors
-# =========================
 .idea/
 .vscode/
 !.vscode/extensions.json
@@ -103,9 +73,6 @@ lerna-debug.log*
 *.tmp
 *~
 
-# =========================
-# OS junk
-# =========================
 .DS_Store
 .DS_Store?
 ._*
@@ -116,9 +83,6 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
-# =========================
-# Local-only tooling
-# =========================
 .local/
 .local-*/
 *.local.*

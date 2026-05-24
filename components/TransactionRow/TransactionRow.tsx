@@ -56,7 +56,7 @@ export const TransactionRow = ({
               {statusLabels[transaction.status]}
             </Badge>
             <span className={styles.transaction_date}>
-              {formatDate(transaction.transactionDate, "MMM d")} ·{" "}
+              {formatDate(transaction.transactionDate, "MMM d")},{" "}
               {pending > 0
                 ? `${formatCurrency(pending, currency)} pending`
                 : "Fully recovered"}

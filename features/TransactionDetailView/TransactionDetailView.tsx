@@ -81,7 +81,7 @@ export const TransactionDetailView = ({ transactionId }: TransactionDetailViewPr
             <div className={styles.tx_personMeta}>
               <span className={styles.tx_personName}>{borrower.name}</span>
               <span className={styles.tx_personSub}>
-                {categoryLabels[transaction.category]} · Updated {formatRelative(transaction.updatedAt)}
+                {categoryLabels[transaction.category]}, Updated {formatRelative(transaction.updatedAt)}
               </span>
             </div>
           </Link>
