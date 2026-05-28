@@ -1,0 +1,82 @@
+.prompt {
+  position: fixed;
+  left: space(4);
+  right: space(4);
+  bottom: calc(#{$nav-height} + 3.25rem + #{space(8)} + env(safe-area-inset-bottom, 0px));
+  z-index: $z-toast;
+  max-width: 440px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  padding: space(3) space(3.5);
+  border-radius: $radius-lg;
+  @include glass(0.85);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+
+  @include desktop {
+    bottom: space(6);
+    right: space(6);
+    left: auto;
+    margin-inline: 0;
+  }
+
+  &__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: var(--primary);
+    color: var(--on-primary);
+    flex-shrink: 0;
+  }
+
+  &__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+
+    strong {
+      font-size: rem(14.5);
+      font-weight: 700;
+    }
+
+    span {
+      font-size: rem(12.5);
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: space(1.5);
+    flex-shrink: 0;
+  }
+}
+
+.inline {
+  display: inline;
+  vertical-align: -2px;
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--text-tertiary);
+
+  &:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+}

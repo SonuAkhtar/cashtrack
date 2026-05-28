@@ -1,0 +1,81 @@
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-nav;
+  padding: 0 space(3) calc(env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+
+  @include desktop {
+    display: none;
+  }
+
+  &__inner {
+    pointer-events: auto;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    align-items: center;
+    height: $nav-height;
+    margin: 0 auto space(2);
+    max-width: 480px;
+    padding: 0 space(1.5);
+    border-radius: $radius-pill;
+    @include glass(0.6);
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 100%;
+  color: var(--text-tertiary);
+  transition: color $dur-fast $ease-out;
+  @include tap-highlight;
+
+  &__icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+  }
+
+  &__glyph {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__label {
+    font-size: rem(10.5);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  &--active {
+    color: var(--nav-active-text);
+    font-weight: 700;
+  }
+
+  &--active &__icon {
+    color: var(--lime-ink);
+  }
+
+  &__glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--lime-gradient);
+    box-shadow: 0 6px 16px rgba(182, 230, 63, 0.35);
+    z-index: 0;
+  }
+}

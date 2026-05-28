@@ -1,0 +1,87 @@
+.dropdown {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+  height: 50px;
+  padding: 0 space(3.5);
+  border-radius: $radius-sm;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-size: rem(14);
+  font-weight: 600;
+  transition: border-color $dur-fast $ease-out, background $dur-fast $ease-out;
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  &__icon {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+  }
+
+  &__value {
+    @include truncate(1);
+  }
+
+  &__caret {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    transition: transform $dur-fast $ease-out;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + #{space(1.5)});
+  z-index: $z-sticky;
+  min-width: 200px;
+  padding: space(1.5);
+  border-radius: $radius-md;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  transform-origin: top;
+
+  &--right {
+    right: 0;
+  }
+  &--left {
+    left: 0;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(3);
+  width: 100%;
+  padding: space(2.5) space(3);
+  border-radius: $radius-xs;
+  font-size: rem(14);
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: left;
+  transition: background $dur-fast $ease-out, color $dur-fast $ease-out;
+
+  &:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  &--active {
+    color: var(--primary);
+    font-weight: 600;
+  }
+}

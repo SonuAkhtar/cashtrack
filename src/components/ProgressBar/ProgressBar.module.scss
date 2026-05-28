@@ -1,0 +1,52 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  width: 100%;
+}
+
+.track {
+  flex: 1;
+  border-radius: $radius-pill;
+  background: var(--surface-3);
+  overflow: hidden;
+
+  &--sm {
+    height: 5px;
+  }
+  &--md {
+    height: 8px;
+  }
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: $radius-pill;
+  background: var(--primary);
+
+  &--completed {
+    background: var(--success);
+  }
+  &--partial {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+  &--overdue {
+    background: linear-gradient(90deg, var(--danger), color-mix(in srgb, var(--danger) 55%, transparent));
+  }
+  &--pending {
+    background: var(--primary);
+  }
+  &--inactive {
+    background: var(--neutral);
+  }
+}
+
+.label {
+  font-size: rem(12);
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-width: 34px;
+  text-align: right;
+}

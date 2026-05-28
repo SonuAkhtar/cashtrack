@@ -1,0 +1,46 @@
+.insights {
+  display: flex;
+  flex-direction: column;
+  gap: space(2);
+}
+
+.insight {
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  padding: space(3) space(3.5);
+  border-radius: $radius-sm;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    flex-shrink: 0;
+
+    &--primary {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    &--success {
+      background: color-mix(in srgb, var(--success) 14%, transparent);
+      color: var(--success);
+    }
+    &--danger {
+      background: color-mix(in srgb, var(--danger) 14%, transparent);
+      color: var(--danger);
+    }
+  }
+
+  &__text {
+    font-size: rem(13.5);
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.45;
+  }
+}

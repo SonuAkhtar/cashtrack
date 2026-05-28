@@ -1,0 +1,124 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(3);
+}
+
+.title {
+  font-size: rem(20);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.filter {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: $radius-pill;
+  color: var(--primary);
+  transition: background $dur-fast $ease-out;
+
+  &:hover {
+    background: var(--primary-soft);
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  padding: space(2.5) space(2);
+  margin: 0 calc(-1 * space(2));
+  border-radius: $radius-md;
+  transition: background $dur-fast $ease-out;
+  @include tap-highlight;
+
+  &:hover {
+    background: var(--surface-2);
+  }
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-pill;
+
+  &--in {
+    background: var(--success-soft);
+    color: var(--success);
+  }
+  &--out {
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.name {
+  font-size: rem(15.5);
+  font-weight: 700;
+  color: var(--text);
+  @include truncate(1);
+}
+
+.meta {
+  font-size: rem(13);
+  color: var(--text-secondary);
+}
+
+.amount {
+  font-size: rem(15.5);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+
+  &--in {
+    color: var(--success);
+  }
+  &--out {
+    color: var(--danger);
+  }
+}
+
+.viewAll {
+  align-self: end;
+  margin-top: space(2);
+  font-size: rem(14);
+  font-weight: 500;
+  color: var(--lime-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+  transition:
+    color $dur-fast $ease-out,
+    filter $dur-fast $ease-out;
+
+  &:hover {
+    color: var(--lime-ink);
+    filter: brightness(1.05);
+  }
+}

@@ -1,0 +1,60 @@
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--avatar-color), color-mix(in srgb, var(--avatar-color) 70%, #000));
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
+
+  &__initials {
+    line-height: 1;
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  &__badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 36%;
+    height: 36%;
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 50%;
+    background: var(--warning);
+    border: 2px solid var(--surface);
+  }
+
+  &--sm {
+    width: 34px;
+    height: 34px;
+    font-size: rem(12);
+  }
+  &--md {
+    width: 44px;
+    height: 44px;
+    font-size: rem(15);
+  }
+  &--lg {
+    width: 56px;
+    height: 56px;
+    font-size: rem(19);
+  }
+  &--xl {
+    width: 76px;
+    height: 76px;
+    font-size: rem(26);
+  }
+}

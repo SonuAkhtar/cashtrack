@@ -1,0 +1,45 @@
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: $font-display;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+
+  &__cash {
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    background: linear-gradient(120deg, var(--primary) 0%, var(--accent) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  &__track {
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--text);
+  }
+
+  &__dot {
+    align-self: center;
+    width: 0.34em;
+    height: 0.34em;
+    margin-left: 0.14em;
+    border-radius: 50%;
+    background: var(--lime-gradient);
+    box-shadow: 0 0 0 0.06em color-mix(in srgb, var(--lime) 35%, transparent);
+  }
+
+  &--sm {
+    font-size: rem(18);
+  }
+
+  &--md {
+    font-size: rem(22);
+  }
+
+  &--lg {
+    font-size: rem(27);
+  }
+}

@@ -1,0 +1,41 @@
+.skeleton {
+  display: block;
+  background: linear-gradient(
+    100deg,
+    var(--skeleton-base) 30%,
+    var(--skeleton-shine) 50%,
+    var(--skeleton-base) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.card {
+  @include card;
+  padding: space(4);
+  display: flex;
+  flex-direction: column;
+  gap: space(4);
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: space(3);
+  }
+
+  &__lines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: space(1.5);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

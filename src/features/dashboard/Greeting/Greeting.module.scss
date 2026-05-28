@@ -1,0 +1,63 @@
+.greeting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(2.5);
+  min-width: 0;
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: space(1.5);
+  font-size: rem(13);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.badgeIcon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: $radius-pill;
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+
+  &[data-icon="sun"] {
+    background: linear-gradient(135deg, #fbbf24, #f97316);
+  }
+
+  &[data-icon="moon"] {
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+  }
+}
+
+.title {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: fluid(19, 33);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.name {
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@include reduce-motion {
+  .greeting {
+    transition: none;
+  }
+}

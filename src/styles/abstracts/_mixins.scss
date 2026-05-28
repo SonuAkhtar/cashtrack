@@ -1,0 +1,112 @@
+@use "sass:map";
+@use "breakpoints" as bp;
+@use "variables" as v;
+
+@mixin up($name) {
+  $value: map.get(bp.$breakpoints, $name);
+  @if $value {
+    @media (min-width: $value) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $name) {
+      @content;
+    }
+  }
+}
+
+@mixin down($name) {
+  $value: map.get(bp.$breakpoints, $name);
+  @if $value {
+    @media (max-width: $value - 0.02px) {
+      @content;
+    }
+  }
+}
+
+@mixin desktop {
+  @media (min-width: bp.$desktop-min) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: bp.$desktop-min - 0.02px) {
+    @content;
+  }
+}
+
+@mixin flex($dir: row, $justify: flex-start, $align: stretch, $gap: 0) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $justify;
+  align-items: $align;
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+@mixin grid($cols: 1, $gap: 16px) {
+  display: grid;
+  grid-template-columns: repeat($cols, minmax(0, 1fr));
+  gap: $gap;
+}
+
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@mixin glass($opacity: 0.6) {
+  background: rgba(var(--surface-rgb), $opacity);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+@mixin card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: v.$radius-md;
+  box-shadow: var(--shadow-sm);
+}
+
+@mixin focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+@mixin scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@mixin safe-bottom {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px));
+}
+
+@mixin safe-top {
+  padding-top: calc(env(safe-area-inset-top, 0px));
+}
+
+@mixin tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+@mixin reduce-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

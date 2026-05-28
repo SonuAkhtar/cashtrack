@@ -1,0 +1,18 @@
+.banner {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + #{space(2)});
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: $z-toast;
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  padding: space(2) space(4);
+  border-radius: $radius-pill;
+  background: var(--text);
+  color: var(--bg);
+  font-size: rem(13);
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  max-width: 92vw;
+}

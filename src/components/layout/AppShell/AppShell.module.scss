@@ -1,0 +1,25 @@
+.shell {
+  display: flex;
+  min-height: 100dvh;
+  background: var(--bg);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+
+  @include desktop {
+    @include safe-top;
+  }
+}
+
+.content {
+  width: 100%;
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: space(4) space(4) calc(#{$nav-height} + #{space(8)} + env(safe-area-inset-bottom, 0px));
+
+  @include desktop {
+    padding: space(8) space(8) space(10);
+  }
+}

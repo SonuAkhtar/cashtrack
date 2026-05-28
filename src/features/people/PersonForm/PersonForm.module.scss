@@ -1,0 +1,54 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: space(4);
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space(3.5);
+  padding: space(2) 0 space(1);
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: space(2);
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: transform $dur-fast $ease-spring;
+  position: relative;
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &--active {
+    transform: scale(1.12);
+    box-shadow: 0 0 0 2px var(--bg-elevated), 0 0 0 4px currentColor;
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: space(3);
+
+  @include down("sm") {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(2);
+}

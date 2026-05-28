@@ -1,0 +1,67 @@
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: space(0.5);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: $radius-pill;
+  padding: space(1);
+  width: 100%;
+
+  &--sm {
+    padding: 3px;
+  }
+}
+
+.segment {
+  position: relative;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: space(2) space(3);
+  border-radius: $radius-pill;
+  font-size: rem(13.5);
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color $dur-fast $ease-out;
+  white-space: nowrap;
+
+  .control--sm & {
+    padding: space(1.5) space(2.5);
+    font-size: rem(12.5);
+  }
+
+  &--active {
+    color: var(--text);
+  }
+
+  &--active[data-tone="lend"] {
+    color: var(--danger);
+  }
+  &--active[data-tone="repay"] {
+    color: var(--success);
+  }
+
+  &__label {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.indicator {
+  position: absolute;
+  inset: 0;
+  background: var(--surface);
+  border-radius: $radius-pill;
+  box-shadow: var(--shadow-sm);
+
+  &[data-tone="lend"] {
+    background: var(--danger-soft);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger) 35%, transparent);
+  }
+  &[data-tone="repay"] {
+    background: var(--success-soft);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--success) 35%, transparent);
+  }
+}

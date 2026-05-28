@@ -1,0 +1,42 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  padding: space(2) space(3.5);
+  border-radius: $radius-pill;
+  font-size: rem(13);
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: background $dur-fast $ease-out, color $dur-fast $ease-out,
+    border-color $dur-fast $ease-out, transform $dur-fast $ease-out;
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  &--active {
+    background: var(--primary);
+    border-color: transparent;
+    color: var(--on-primary);
+  }
+
+  &__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: $radius-pill;
+    font-size: rem(11);
+    font-weight: 700;
+    background: color-mix(in srgb, currentColor 18%, transparent);
+  }
+}

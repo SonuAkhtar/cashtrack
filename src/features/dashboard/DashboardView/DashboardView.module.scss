@@ -1,0 +1,38 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: space(5);
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: space(5);
+  padding: space(5);
+  margin: 0 calc(-1 * space(4));
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: $radius-xl;
+  box-shadow: var(--shadow-sm);
+
+  @include desktop {
+    margin: 0;
+    padding: space(6);
+  }
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space(4);
+
+  @include up("lg") {
+    grid-template-columns: 1.6fr 1fr;
+  }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+}
