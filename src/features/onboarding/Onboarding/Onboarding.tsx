@@ -2,146 +2,150 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Icon, type IconName } from "@/components/Icon/Icon";
 import { useSettingsStore } from "@/store/settingsStore";
 import { cn } from "@/utils/cn";
 import styles from "./Onboarding.module.scss";
 
-interface Option {
-  id: string;
-  label: string;
-  icon: IconName;
-  tone: string;
-}
-
 interface Step {
-  key: string;
-  kind: "text" | "multi";
+  key: "name" | "email" | "phone";
   title: string;
-  placeholder?: string;
-  options?: Option[];
+  subtitle: string;
+  placeholder: string;
+  type: "text" | "email" | "tel";
+  inputMode?: "text" | "email" | "tel";
+  autoComplete?: string;
 }
 
 const steps: Step[] = [
   {
     key: "name",
-    kind: "text",
-    title: "First up, what should we call you?",
+    title: "What should we call you?",
+    subtitle: "We'll use this on your dashboard greeting.",
     placeholder: "Your name",
+    type: "text",
+    inputMode: "text",
+    autoComplete: "given-name",
   },
   {
-    key: "track",
-    kind: "multi",
-    title: "Who do you mainly lend to?",
-    options: [
-      { id: "Personal", label: "Personal", icon: "user", tone: "primary" },
-      { id: "Business", label: "Business", icon: "wallet", tone: "success" },
-      { id: "Family", label: "Family", icon: "people", tone: "accent" },
-      { id: "Friends", label: "Friends", icon: "star", tone: "warning" },
-    ],
+    key: "email",
+    title: "Add your email",
+    subtitle: "Used for backups and reminders. You can change it later.",
+    placeholder: "you@example.com",
+    type: "email",
+    inputMode: "email",
+    autoComplete: "email",
   },
   {
-    key: "focus",
-    kind: "multi",
-    title: "What matters most to you?",
-    options: [
-      { id: "On-time repayments", label: "On-time repayments", icon: "check-circle", tone: "success" },
-      { id: "Payment reminders", label: "Payment reminders", icon: "bell", tone: "primary" },
-      { id: "Clear records", label: "Clear records", icon: "archive", tone: "accent" },
-      { id: "Spending insights", label: "Spending insights", icon: "trend-up", tone: "info" },
-    ],
+    key: "phone",
+    title: "Your phone number",
+    subtitle: "Helps you sync between devices in the future.",
+    placeholder: "+91 98765 43210",
+    type: "tel",
+    inputMode: "tel",
+    autoComplete: "tel",
   },
 ];
 
 export const Onboarding = () => {
   const setProfile = useSettingsStore((s) => s.setProfile);
-  const setProfileFocus = useSettingsStore((s) => s.setProfileFocus);
   const complete = useSettingsStore((s) => s.completeOnboarding);
 
   const [stepIndex, setStepIndex] = useState(0);
-  const [name, setName] = useState("");
-  const [selections, setSelections] = useState<Record<string, string[]>>({});
+  const [values, setValues] = useState<Record<Step["key"], string>>({
+    name: "",
+    email: "",
+    phone: "",
+  });
 
   const step = steps[stepIndex];
   const isLast = stepIndex === steps.length - 1;
-  const canProceed = step.kind === "text" ? name.trim().length > 0 : true;
+  const value = values[step.key];
+  const canProceed = value.trim().length > 0;
 
-  const toggleOption = (stepKey: string, id: string) =>
-    setSelections((prev) => {
-      const current = prev[stepKey] ?? [];
-      const nextValues = current.includes(id) ? current.filter((x) => x !== id) : [...current, id];
-      return { ...prev, [stepKey]: nextValues };
+  const writeValue = (key: Step["key"], next: string) =>
+    setValues((prev) => ({ ...prev, [key]: next }));
+
+  const finish = (final: Record<Step["key"], string>) => {
+    setProfile({
+      name: final.name.trim() || "CashTrack User",
+      email: final.email.trim(),
+      phone: final.phone.trim(),
     });
-
-  const finish = () => {
-    setProfile({ name: name.trim() || "CashTrack User", email: "" });
-    setProfileFocus([...(selections.track ?? []), ...(selections.focus ?? [])]);
     complete();
+  };
+
+  const advance = () => {
+    if (isLast) finish(values);
+    else setStepIndex((i) => i + 1);
   };
 
   const next = () => {
     if (!canProceed) return;
-    if (isLast) finish();
+    advance();
+  };
+
+  const skip = () => {
+    const cleared = { ...values, [step.key]: "" };
+    setValues(cleared);
+    if (isLast) finish(cleared);
     else setStepIndex((i) => i + 1);
   };
 
   return (
-    <motion.div className={styles.screen} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div
+      className={styles.screen}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <div className={styles.progress}>
         {steps.map((s, i) => (
-          <span key={s.key} className={cn(styles.progress__seg, i <= stepIndex && styles["progress__seg--on"])} />
+          <span
+            key={s.key}
+            className={cn(
+              styles.progress__seg,
+              i <= stepIndex && styles["progress__seg--on"]
+            )}
+          />
         ))}
       </div>
 
       <motion.div
         key={step.key}
         className={styles.body}
-        initial={{ opacity: 0, x: 28 }}
+        initial={{ opacity: 0, x: 24 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       >
         <h1 className={styles.title}>{step.title}</h1>
+        <p className={styles.subtitle}>{step.subtitle}</p>
 
-        {step.kind === "text" ? (
-          <input
-            autoFocus
-            className={styles.input}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder={step.placeholder}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") next();
-            }}
-          />
-        ) : (
-          <div className={styles.options}>
-            {step.options!.map((opt) => {
-              const selected = (selections[step.key] ?? []).includes(opt.id);
-              return (
-                <button
-                  key={opt.id}
-                  type="button"
-                  className={styles.option}
-                  onClick={() => toggleOption(step.key, opt.id)}
-                >
-                  <span className={cn(styles.option__avatar, styles[`option__avatar--${opt.tone}`])}>
-                    <Icon name={opt.icon} size={20} />
-                  </span>
-                  <span className={cn(styles.option__label, selected && styles["option__label--on"])}>
-                    {opt.label}
-                  </span>
-                  <span className={cn(styles.option__check, selected && styles["option__check--on"])}>
-                    {selected && <Icon name="check" size={14} strokeWidth={3} />}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        )}
+        <input
+          key={step.key}
+          autoFocus
+          className={styles.input}
+          type={step.type}
+          inputMode={step.inputMode}
+          autoComplete={step.autoComplete}
+          value={value}
+          onChange={(e) => writeValue(step.key, e.target.value)}
+          placeholder={step.placeholder}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && canProceed) next();
+          }}
+        />
       </motion.div>
 
       <div className={styles.footer}>
-        <button className={styles.next} onClick={next} disabled={!canProceed}>
+        <button type="button" className={styles.skip} onClick={skip}>
+          Skip
+        </button>
+        <button
+          type="button"
+          className={styles.next}
+          onClick={next}
+          disabled={!canProceed}
+        >
           {isLast ? "Get started" : "Next"}
         </button>
       </div>

@@ -42,7 +42,7 @@ export const CommandPalette = () => {
       { id: "add-person", label: "Add borrower", icon: "people", group: "actions", perform: () => { openModal({ type: "person" }); } },
       { id: "nav-dashboard", label: "Go to Overview", icon: "home", group: "navigation", perform: () => router.push("/") },
       { id: "nav-people", label: "Go to People", icon: "people", group: "navigation", perform: () => router.push("/people") },
-      { id: "nav-activity", label: "Go to Activity", icon: "activity", group: "navigation", perform: () => router.push("/transactions") },
+      { id: "nav-activity", label: "Go to Activity", icon: "activity", group: "navigation", perform: () => router.push("/activity") },
       { id: "nav-profile", label: "Go to Profile", icon: "user", group: "navigation", perform: () => router.push("/profile") },
       { id: "toggle-theme", label: "Toggle theme", icon: "moon", group: "settings", perform: toggle },
     ];

@@ -38,8 +38,16 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.16;
-  margin-bottom: space(8);
+  margin-bottom: space(2);
   max-width: 16ch;
+}
+
+.subtitle {
+  font-size: rem(15);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: space(7);
+  max-width: 32ch;
 }
 
 .input {
@@ -144,11 +152,28 @@
 .footer {
   padding-top: space(6);
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(4);
+}
+
+.skip {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: rem(15);
+  font-weight: 600;
+  padding: space(3) space(4);
+  border-radius: $radius-pill;
+  transition: color $dur-fast $ease-out, background $dur-fast $ease-out;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.06);
+  }
 }
 
 .next {
-  min-width: 220px;
+  flex: 1;
   padding: space(4) space(8);
   border-radius: $radius-pill;
   background: #f8fafc;

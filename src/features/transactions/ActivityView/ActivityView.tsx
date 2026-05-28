@@ -91,6 +91,7 @@ export const ActivityView = () => {
         ]}
         value={filter}
         onChange={setFilter}
+        tones={{ lend: "lend", repayment: "repay" }}
       />
 
       {isLoading ? (
@@ -125,16 +126,55 @@ export const ActivityView = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.03 }}
                     >
-                      <Link href={`/people/${transaction.personId}`} className={styles.item}>
-                        <Avatar name={person?.name ?? "?"} color={person?.avatarColor ?? "var(--neutral)"} size="md" />
+                      <Link
+                        href={`/people/${transaction.personId}`}
+                        className={cn(
+                          styles.item,
+                          isLend ? styles["item--lend"] : styles["item--repay"]
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            styles.item__direction,
+                            isLend
+                              ? styles["item__direction--lend"]
+                              : styles["item__direction--repay"]
+                          )}
+                          aria-hidden
+                        >
+                          <Icon name={isLend ? "arrow-up" : "arrow-down"} size={16} />
+                        </span>
+                        <Avatar
+                          name={person?.name ?? "?"}
+                          color={person?.avatarColor ?? "var(--neutral)"}
+                          size="md"
+                        />
                         <div className={styles.item__text}>
                           <span className={styles.item__name}>{person?.name ?? "Unknown"}</span>
                           <span className={styles.item__meta}>
-                            {isLend ? "Money lent" : "Repayment"} · {formatDate(transaction.date, "h:mm a")}
+                            <span
+                              className={cn(
+                                styles.item__type,
+                                isLend
+                                  ? styles["item__type--lend"]
+                                  : styles["item__type--repay"]
+                              )}
+                            >
+                              {isLend ? "Lent" : "Repaid"}
+                            </span>
+                            <span className={styles.item__sep} aria-hidden>
+                              ,
+                            </span>
+                            {formatDate(transaction.date, "h:mm a")}
                           </span>
                         </div>
-                        <span className={cn(styles.item__amount, isLend ? styles["item__amount--lend"] : styles["item__amount--repay"])}>
-                          {isLend ? "+" : "−"}
+                        <span
+                          className={cn(
+                            styles.item__amount,
+                            isLend ? styles["item__amount--lend"] : styles["item__amount--repay"]
+                          )}
+                        >
+                          {isLend ? "+" : "-"}
                           {format(transaction.amount)}
                         </span>
                         <Icon name="chevron-right" size={16} className={styles.item__chevron} />

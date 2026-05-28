@@ -45,21 +45,56 @@
   border-radius: $radius-md;
   background: var(--surface);
   border: 1px solid var(--border);
-  transition: border-color $dur-fast $ease-out, transform $dur-fast $ease-out;
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color $dur-fast $ease-out,
+    background $dur-fast $ease-out,
+    box-shadow $dur-fast $ease-out,
+    transform $dur-fast $ease-out;
+
+  &--lend {
+    background: color-mix(in srgb, var(--danger) 5%, var(--surface));
+  }
+
+  &--repay {
+    background: color-mix(in srgb, var(--success) 5%, var(--surface));
+  }
 
   &:hover {
     border-color: var(--border-strong);
+    box-shadow: var(--shadow-md);
   }
 
   &:active {
     transform: scale(0.99);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__direction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &--lend {
+      background: color-mix(in srgb, var(--danger) 18%, transparent);
+      color: var(--danger);
+    }
+
+    &--repay {
+      background: color-mix(in srgb, var(--success) 18%, transparent);
+      color: var(--success);
+    }
   }
 
   &__text {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
     min-width: 0;
   }
 
@@ -72,6 +107,26 @@
   &__meta {
     font-size: rem(12);
     color: var(--text-tertiary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__sep {
+    color: var(--text-tertiary);
+  }
+
+  &__type {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    &--lend {
+      color: var(--danger);
+    }
+
+    &--repay {
+      color: var(--success);
+    }
   }
 
   &__amount {

@@ -22,7 +22,7 @@ export const RecentTransactions = ({ items }: RecentTransactionsProps) => {
     <section className={styles.section}>
       <div className={styles.head}>
         <h3 className={styles.title}>Transactions</h3>
-        <Link href="/transactions" className={styles.filter} aria-label="View all transactions">
+        <Link href="/activity" className={styles.filter} aria-label="View all transactions">
           <Icon name="filter" size={18} />
         </Link>
       </div>
@@ -66,7 +66,7 @@ export const RecentTransactions = ({ items }: RecentTransactionsProps) => {
       )}
 
       {items.length > 0 && (
-        <Link href="/transactions" className={styles.viewAll}>
+        <Link href="/activity" className={styles.viewAll}>
           View all transactions
         </Link>
       )}

@@ -10,6 +10,7 @@ interface SettingsState {
   remindersEnabled: boolean;
   profileName: string;
   profileEmail: string;
+  profilePhone: string;
   profilePhoto: string;
   profileFocus: string[];
   hydrated: boolean;
@@ -18,7 +19,7 @@ interface SettingsState {
   togglePin: (value: boolean) => void;
   toggleBiometric: (value: boolean) => void;
   toggleReminders: (value: boolean) => void;
-  setProfile: (profile: { name: string; email: string }) => void;
+  setProfile: (profile: { name: string; email: string; phone?: string }) => void;
   setProfilePhoto: (photo: string) => void;
   setProfileFocus: (focus: string[]) => void;
   setHydrated: () => void;
@@ -34,6 +35,7 @@ export const useSettingsStore = create<SettingsState>()(
       remindersEnabled: true,
       profileName: "CashTrack User",
       profileEmail: "",
+      profilePhone: "",
       profilePhoto: "",
       profileFocus: [],
       hydrated: false,
@@ -42,7 +44,12 @@ export const useSettingsStore = create<SettingsState>()(
       togglePin: (pinEnabled) => set({ pinEnabled }),
       toggleBiometric: (biometricEnabled) => set({ biometricEnabled }),
       toggleReminders: (remindersEnabled) => set({ remindersEnabled }),
-      setProfile: ({ name, email }) => set({ profileName: name, profileEmail: email }),
+      setProfile: ({ name, email, phone }) =>
+        set((s) => ({
+          profileName: name,
+          profileEmail: email,
+          profilePhone: phone ?? s.profilePhone,
+        })),
       setProfilePhoto: (profilePhoto) => set({ profilePhoto }),
       setProfileFocus: (profileFocus) => set({ profileFocus }),
       setHydrated: () => set({ hydrated: true }),
@@ -52,7 +59,7 @@ export const useSettingsStore = create<SettingsState>()(
       onRehydrateStorage: () => (state) => {
         state?.setHydrated();
       },
-      partialize: ({ theme, onboarded, pinEnabled, biometricEnabled, remindersEnabled, profileName, profileEmail, profilePhoto, profileFocus }) => ({
+      partialize: ({ theme, onboarded, pinEnabled, biometricEnabled, remindersEnabled, profileName, profileEmail, profilePhone, profilePhoto, profileFocus }) => ({
         theme,
         onboarded,
         pinEnabled,
@@ -60,6 +67,7 @@ export const useSettingsStore = create<SettingsState>()(
         remindersEnabled,
         profileName,
         profileEmail,
+        profilePhone,
         profilePhoto,
         profileFocus,
       }),

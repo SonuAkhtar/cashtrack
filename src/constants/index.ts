@@ -25,7 +25,7 @@ export const AVATAR_COLORS = [
 export const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Home", icon: "home" },
   { href: "/people", label: "People", icon: "people" },
-  { href: "/transactions", label: "Activity", icon: "activity" },
+  { href: "/activity", label: "Activity", icon: "activity" },
   { href: "/emi", label: "EMI", icon: "emi" },
   { href: "/profile", label: "Profile", icon: "user" },
 ];
@@ -54,3 +54,30 @@ export const REPAYMENT_FREQUENCIES: SelectOption<"weekly" | "biweekly" | "monthl
 ];
 
 export const QUICK_TAGS = ["Family", "Friend", "Business", "Colleague", "Emergency"];
+
+export interface CountryCode {
+  code: string;
+  dial: string;
+  name: string;
+}
+
+export const COUNTRY_CODES: CountryCode[] = [
+  { code: "IN", dial: "+91", name: "India" },
+  { code: "US", dial: "+1", name: "United States" },
+  { code: "GB", dial: "+44", name: "United Kingdom" },
+  { code: "AE", dial: "+971", name: "United Arab Emirates" },
+  { code: "SG", dial: "+65", name: "Singapore" },
+  { code: "AU", dial: "+61", name: "Australia" },
+  { code: "CA", dial: "+1", name: "Canada" },
+  { code: "DE", dial: "+49", name: "Germany" },
+  { code: "FR", dial: "+33", name: "France" },
+  { code: "JP", dial: "+81", name: "Japan" },
+  { code: "BD", dial: "+880", name: "Bangladesh" },
+  { code: "PK", dial: "+92", name: "Pakistan" },
+  { code: "LK", dial: "+94", name: "Sri Lanka" },
+  { code: "NP", dial: "+977", name: "Nepal" },
+  { code: "ID", dial: "+62", name: "Indonesia" },
+  { code: "PH", dial: "+63", name: "Philippines" },
+];
+
+export const DEFAULT_COUNTRY_CODE = "+91";

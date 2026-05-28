@@ -8,7 +8,7 @@ const IMAGE_CACHE = CACHE_VERSION + "-images";
 const STATIC_ASSETS = [
   "/",
   "/people",
-  "/transactions",
+  "/activity",
   "/emi",
   "/profile",
   "/offline",

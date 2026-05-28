@@ -32,7 +32,6 @@ export const ProfileView = () => {
   const profileName = useSettingsStore((s) => s.profileName);
   const profileEmail = useSettingsStore((s) => s.profileEmail);
   const profilePhoto = useSettingsStore((s) => s.profilePhoto);
-  const profileFocus = useSettingsStore((s) => s.profileFocus);
   const setProfile = useSettingsStore((s) => s.setProfile);
   const setProfilePhoto = useSettingsStore((s) => s.setProfilePhoto);
 
@@ -215,18 +214,6 @@ export const ProfileView = () => {
           </Field>
         </div>
       </Sheet>
-
-      {profileFocus.length > 0 && (
-        <Section title="Your focus">
-          <div className={styles.focus}>
-            {profileFocus.map((item) => (
-              <span key={item} className={styles.focus__chip}>
-                {item}
-              </span>
-            ))}
-          </div>
-        </Section>
-      )}
 
       <Section title="Security">
         <Row icon="lock" label="PIN lock" hint="Require a PIN to open the app">
