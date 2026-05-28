@@ -60,8 +60,20 @@ button {
 
 input, textarea, select {
   font-family: inherit;
-  font-size: max(16px, 1em);
   color: inherit;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+textarea,
+select,
+[contenteditable="true"] {
+  font-size: max(16px, 1em) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  font-size: max(16px, 1em) !important;
 }
 
 ul, ol {
