@@ -15,14 +15,12 @@ export const Sidebar = () => {
   const openModal = useUIStore((s) => s.openModal);
   const openCommand = useUIStore((s) => s.openCommand);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <aside className={styles.sidebar}>
       <Link href="/" className={styles.brand}>
-        <span className={styles.brand__mark}>
-          <Icon name="wallet" size={22} strokeWidth={2.2} />
-        </span>
         <Logo size="md" />
       </Link>
 
@@ -37,7 +35,10 @@ export const Sidebar = () => {
           <Link
             key={item.href}
             href={item.href}
-            className={cn(styles.link, isActive(item.href) && styles["link--active"])}
+            className={cn(
+              styles.link,
+              isActive(item.href) && styles["link--active"],
+            )}
           >
             <Icon name={item.icon as IconName} size={20} />
             <span>{item.label}</span>
@@ -46,7 +47,11 @@ export const Sidebar = () => {
       </nav>
 
       <div className={styles.footer}>
-        <Button icon="plus" fullWidth onClick={() => openModal({ type: "transaction" })}>
+        <Button
+          icon="plus"
+          fullWidth
+          onClick={() => openModal({ type: "transaction" })}
+        >
           New transaction
         </Button>
       </div>
